@@ -8,4 +8,8 @@
   "author": "",
   "license": "ISC",
   "description": ""
+  ,
+  "workspaces": [
+      "packages/*"
+  ]
 }
