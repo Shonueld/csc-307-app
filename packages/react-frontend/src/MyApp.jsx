@@ -32,7 +32,7 @@ function MyApp() {
     <div className="container">
       <Table
         characterData={characters}
-        removeOneCharacter={removeOneCharacter}
+        removeCharacter={removeOneCharacter}
       />
     </div>
   );
