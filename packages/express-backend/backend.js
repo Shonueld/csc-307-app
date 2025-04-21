@@ -30,8 +30,9 @@ app.get("/users", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.send();
+  userToAdd.id = generateId(); // generate a random id
+  addUser(userToAdd);   // add user to the list
+  res.status(201).send(userToAdd); // return created object
 });
 
 app.get("/users/:id", (req, res) => {
@@ -91,6 +92,10 @@ const users = {
 
 const findUserByName = (name) => {
   return users["users_list"].filter((user) => user["name"] === name);
+};
+
+const generateId = () => {
+  return Math.random().toString(36).substr(2, 9); // e.g. "a8j4kd02z"
 };
 
 const findUserById = (id) =>
