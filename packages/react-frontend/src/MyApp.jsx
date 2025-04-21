@@ -34,11 +34,21 @@ function MyApp() {
 
   function updateList(person) {
     postUser(person)
-      .then(() => setCharacters([...characters, person]))
+      .then((res) => {
+        if (res.status === 201) {
+          return res.json(); // Parse the created user from the backend
+        } else {
+          throw new Error("Failed to create user");
+        }
+      })
+      .then((createdUser) => {
+        setCharacters([...characters, createdUser]); // Use the full user w/ ID
+      })
       .catch((error) => {
         console.log(error);
       });
   }
+  
 
   function postUser(person) {
     const promise = fetch("http://localhost:8000/users", {
