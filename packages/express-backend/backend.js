@@ -31,7 +31,7 @@ app.get("/users", (req, res) => {
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
   userToAdd.id = generateId(); // generate a random id
-  addUser(userToAdd);   // add user to the list
+  addUser(userToAdd); // add user to the list
   res.status(201).send(userToAdd); // return created object
 });
 
