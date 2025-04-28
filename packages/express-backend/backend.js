@@ -10,7 +10,7 @@ const { MONGO_CONNECTION_STRING } = process.env;
 
 mongoose.set("debug", true);
 mongoose
-  .connect(MONGO_CONNECTION_STRING + "users") // connect to Db "users"
+  .connect(MONGO_CONNECTION_STRING + "/users") // connect to Db "users"
   .catch((error) => console.log(error));
 
 const app = express();
@@ -27,47 +27,53 @@ app.get("/users", (req, res) => {
   const name = req.query.name;
   const job = req.query.job;
 
-  userService.getUsers(name, job).then((users) => {
-    res.send({users_list: users});
-  })
-  .catch((error) => {
-    console.log(error);
-    res.status(500).send(error.message);
-  });
+  userService
+    .getUsers(name, job)
+    .then((users) => {
+      res.send({ users_list: users });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error.message);
+    });
 });
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
 
-  userService.addUser(userToAdd).then((createdUser) => {
-    res.status(201).send(createdUser);
-  })
-  .catch((error) => {
-    console.log(error);
-    res.status(400).send(error.message);
-  });
+  userService
+    .addUser(userToAdd)
+    .then((createdUser) => {
+      res.status(201).send(createdUser);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(400).send(error.message);
+    });
 });
 
 app.get("/users/:id", (req, res) => {
-  const id = req.params["id"]; 
+  const id = req.params["id"];
 
-  userService.findUserById(id)
-  .then((user) => {
-    if(!user){
-    res.status(404).send("User not found.");
-    } else {
-      res.send(user);
-    }
-  })
-  .catch((error) => {
-    res.status(400).send(error.message);
-  });
+  userService
+    .findUserById(id)
+    .then((user) => {
+      if (!user) {
+        res.status(404).send("User not found.");
+      } else {
+        res.send(user);
+      }
+    })
+    .catch((error) => {
+      res.status(400).send(error.message);
+    });
 });
 
 app.delete("/users/:id", (req, res) => {
   const id = req.params["id"];
 
-  userService.deleteUserById(id)
+  userService
+    .deleteUserById(id)
     .then((deletedUser) => {
       if (!deletedUser) {
         res.status(404).send("User not found.");
@@ -83,4 +89,3 @@ app.delete("/users/:id", (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-
