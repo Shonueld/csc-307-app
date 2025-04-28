@@ -1,16 +1,12 @@
 import userModel from "../models/user.js";
 
 function getUsers(name, job) {
-  let promise;
-  if (name === undefined && job === undefined) {
-    promise = userModel.find();
-  } else if (name && !job) {
-    promise = findUserByName(name);
-  } else if (job && !name) {
-    promise = findUserByJob(job);
-  }
-  return promise;
+  const filter = {};
+  if (name) filter.name = name;
+  if (job) filter.job = job;
+  return userModel.find(filter);
 }
+
 
 function findUserById(id) {
   return userModel.findById(id);

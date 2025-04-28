@@ -12,7 +12,7 @@ function MyApp() {
 
   function removeOneCharacter(index) {
     const userToDelete = characters[index];
-    const id = userToDelete.id;
+    const id = userToDelete._id;
 
     fetch(`http://localhost:8000/users/${id}`, {
       method: "DELETE",
@@ -48,7 +48,6 @@ function MyApp() {
         console.log(error);
       });
   }
-  
 
   function postUser(person) {
     const promise = fetch("http://localhost:8000/users", {
